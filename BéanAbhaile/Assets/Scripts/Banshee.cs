@@ -18,11 +18,15 @@ public class Banshee : MonoBehaviour
 
     //Objects
     public GameObject player;
-    private AudioSource _wailSound;
+    public AudioSource huntWailSound;
+    public AudioSource painWailSound;
     private Controller _playerController;
     private BoxCollider _playerSightTrigger;
+    public GameObject deathLocation;
 
     private string _state;
+    private string _previousState;
+    private bool _nearDeathLocation;
 
     private float _moveSpeed = 2;
     public float _playerAwareness;
@@ -43,7 +47,8 @@ public class Banshee : MonoBehaviour
 
     //Timers
     private float _randomDestinationTimer;
-    private float _wailTimer;
+    private float _huntWailTimer = 0;
+    private float _painWailTimer = 5;
     private float _playerAwarenessDecayRate = 10;
     #endregion
 
@@ -54,10 +59,9 @@ public class Banshee : MonoBehaviour
         _playerSightTrigger.size = new Vector3(3, 3, _sightRange);
         _playerSightTrigger.center = this.transform.forward * (_sightRange / 2);
         _playerController = player.GetComponent<Controller>();
-        _wailSound = GetComponent<AudioSource>();
         _meshAgent = this.GetComponent<NavMeshAgent>();
         _randomDestinationTimer = Random.Range(20, 30);
-        _wailTimer = Random.Range(4, 7);
+        _painWailTimer = Random.Range(4, 7);
         GenerateDestination();
     }
 
@@ -69,19 +73,12 @@ public class Banshee : MonoBehaviour
         //update awareness
         PlayerAwarenessChange();
 
-        //screaming timers
-        if (_playerAwareness >= 30)
-        {
-            _wailTimer -= Time.deltaTime;
-            if (_wailTimer <= 0)
-            {
-                _wailSound.Play();
-                _wailTimer = Random.Range(4, 7);
-            }
-        }
         //update meshAgent Movement
         _meshAgent.destination = _destination;
         _meshAgent.speed = _moveSpeed;
+
+        HuntWail();
+        PainWail();
     }
 
     private void GenerateDestination()
@@ -156,7 +153,6 @@ public class Banshee : MonoBehaviour
             _playerAwareness = _playerAwarenessMax;
         }
         //adjust player awarenss, needs revision
-        //_playerAwareness = (changeValue <= 0) ? _playerAwareness - _playerAwarenessDecayRate * Time.deltaTime: _playerAwareness + changeValue * Time.deltaTime;
 
         //Get awareness levels and behaviours
         if (_playerAwareness <= 10)
@@ -185,20 +181,7 @@ public class Banshee : MonoBehaviour
             {
                 GeneratePositionNearPlayer();
             }
-            //if (Random.Range(0, 4f) <= 2) GenerateDestination();
-            //else GeneratePositionNearPlayer();
         }
-        /*else
-        {
-            _randomDestinationTimer -= Time.deltaTime;
-            if (_randomDestinationTimer <= 0)
-            {
-                if (Random.Range(0, 50) > _playerAwareness) GenerateDestination();
-                else GeneratePositionNearPlayer();
-                _randomDestinationTimer = Random.Range(20, 30);
-
-            }
-        }*/
         Debug.Log(_state);
 
         switch (_state)
@@ -217,10 +200,6 @@ public class Banshee : MonoBehaviour
 
             case "Hunt":
                 _destination = player.transform.position;
-                break;
-
-            default:
-                Debug.Log("YEET");
                 break;
         }
     }
@@ -247,11 +226,50 @@ public class Banshee : MonoBehaviour
         }
     }
 
-    private void OnTriggerxit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
             _inSightRange = false;
+        }
+    }
+
+    private void HuntWail()
+    {
+        if (_state == "Hunt")
+        {
+            if (_previousState != "Hunt")
+            {
+                //Debug.Log("FUCKING SCREECH");
+                _huntWailTimer = Random.Range(3,5);
+                huntWailSound.Play();
+            }
+            _huntWailTimer -= Time.deltaTime;
+            if (_huntWailTimer <= 0)
+            {
+                _huntWailTimer = Random.Range(3, 5);
+                huntWailSound.Play();
+            }
+        }
+        _previousState = _state;
+    }
+
+    private void PainWail()
+    {
+        _painWailTimer -= Time.deltaTime;
+        if (_painWailTimer <= 0)
+        {
+            painWailSound.Play();
+        }
+        if (Vector3.Distance(player.transform.position, deathLocation.transform.position) <= 5 && !_nearDeathLocation)
+        {
+            //Debug.Log("YOU BITCH");
+            _nearDeathLocation = true;
+            painWailSound.Play();
+        }
+        if (Vector3.Distance(player.transform.position, deathLocation.transform.position) >= 6)
+        {
+            _nearDeathLocation = false;
         }
     }
 }
