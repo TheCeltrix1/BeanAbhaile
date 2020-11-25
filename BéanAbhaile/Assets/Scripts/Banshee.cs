@@ -20,7 +20,7 @@ public class Banshee : MonoBehaviour
     public GameObject player;
     public AudioSource huntWailSound;
     public AudioSource painWailSound;
-    private Controller _playerController;
+    private Player _playerController;
     private BoxCollider _playerSightTrigger;
     public GameObject deathLocation;
 
@@ -58,7 +58,7 @@ public class Banshee : MonoBehaviour
         _playerSightTrigger.isTrigger = true;
         _playerSightTrigger.size = new Vector3(3, 3, _sightRange);
         _playerSightTrigger.center = this.transform.forward * (_sightRange / 2);
-        _playerController = player.GetComponent<Controller>();
+        _playerController = player.GetComponent<Player>();
         _meshAgent = this.GetComponent<NavMeshAgent>();
         _randomDestinationTimer = Random.Range(20, 30);
         _painWailTimer = Random.Range(4, 7);
@@ -74,8 +74,11 @@ public class Banshee : MonoBehaviour
         PlayerAwarenessChange();
 
         //update meshAgent Movement
-        _meshAgent.destination = _destination;
+        _meshAgent.SetDestination(_destination);
         _meshAgent.speed = _moveSpeed;
+        Debug.Log(_destination);
+
+        PlayerAwarenessChange();
 
         HuntWail();
         PainWail();
@@ -182,7 +185,7 @@ public class Banshee : MonoBehaviour
                 GeneratePositionNearPlayer();
             }
         }
-        Debug.Log(_state);
+        //Debug.Log(_state);
 
         switch (_state)
         {
