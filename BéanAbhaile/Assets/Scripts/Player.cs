@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
     private void HandleInput() {
         movementVector = new Vector2(Input.GetAxisRaw(horizontalAxis), Input.GetAxisRaw(verticalAxis));
 
-        if (Mathf.Abs(movementVector.x) > 0 || Mathf.Abs(movementVector.y) > 0) noise += 20;
+        if (Mathf.Abs(movementVector.x) > 0 || Mathf.Abs(movementVector.y) > 0) noise += 40;
 
         IsMoving = movementVector.magnitude != 0f;
     }

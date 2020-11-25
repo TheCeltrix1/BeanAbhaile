@@ -31,7 +31,7 @@ public class Banshee : MonoBehaviour
     private float _moveSpeed = 2;
     public float _playerAwareness;
     private float _playerAwarenessMax = 75;
-    private float _playerAwarenessProximityModifier = 0.25f;
+    private float _playerAwarenessProximityModifier = 50f;
 
     private Vector3 _destination;
     private Vector3 _previousLocation;
@@ -134,7 +134,7 @@ public class Banshee : MonoBehaviour
     //Hearing
     private float NoiseLevels()
     {
-        float noise = (_playerController.noise / Vector3.Distance(player.transform.position, this.transform.position)) * Time.deltaTime;
+        float noise = (_playerController.noise / Vector3.Distance(player.transform.position, this.transform.position)) * _playerAwarenessProximityModifier * Time.deltaTime;
         return noise;
     }
 
