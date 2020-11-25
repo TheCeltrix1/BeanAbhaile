@@ -37,6 +37,7 @@ public class Banshee : MonoBehaviour
     private Vector3 _previousLocation;
     public Vector3[] _keyPlaces;
     private NavMeshAgent _meshAgent;
+    private NavMeshPath _navMeshPath;
     private RaycastHit _hit;
 
     //Senses
@@ -49,7 +50,7 @@ public class Banshee : MonoBehaviour
     private float _randomDestinationTimer;
     private float _huntWailTimer = 0;
     private float _painWailTimer = 5;
-    private float _playerAwarenessDecayRate = 10;
+    private float _playerAwarenessDecayRate = 2;
     #endregion
 
     void Start()
@@ -74,6 +75,8 @@ public class Banshee : MonoBehaviour
         PlayerAwarenessChange();
 
         //update meshAgent Movement
+        //_meshAgent.CalculatePath(_destination, _navMeshPath);
+        //_meshAgent.path =_navMeshPath;
         _meshAgent.SetDestination(_destination);
         _meshAgent.speed = _moveSpeed;
         Debug.Log(_destination);
