@@ -14,7 +14,7 @@ public class GlobalEditor : Editor
         SerializedProperty current = entryPoint.Copy();
         while (current.Next(true))
         {
-            if (!current.name.StartsWith("m_"))
+            if (!current.name.StartsWith("m_") || current.name.StartsWith("m_Script"))
                 list.Add(new SerializedPropertyGroup()
                 {
                     property = current,

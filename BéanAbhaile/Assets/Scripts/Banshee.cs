@@ -51,6 +51,12 @@ public class Banshee : MonoBehaviour
     private float _huntWailTimer = 0;
     private float _painWailTimer = 5;
     private float _playerAwarenessDecayRate = 2;
+
+    //ending variables
+    public bool noose = false;
+    public bool brush = false;
+    public bool reflection = false;
+
     #endregion
 
     void Start()
@@ -68,6 +74,8 @@ public class Banshee : MonoBehaviour
 
     void Update()
     {
+        //victory conditions
+        if (noose && brush && reflection) Destroy(this.gameObject);
         //Variable Updates
         _playerDistance = Vector3.Distance(this.transform.position, player.transform.position);
 
@@ -75,11 +83,9 @@ public class Banshee : MonoBehaviour
         PlayerAwarenessChange();
 
         //update meshAgent Movement
-        //_meshAgent.CalculatePath(_destination, _navMeshPath);
-        //_meshAgent.path =_navMeshPath;
         _meshAgent.SetDestination(_destination);
         _meshAgent.speed = _moveSpeed;
-        Debug.Log(_destination);
+        //Debug.Log(_destination);
 
         PlayerAwarenessChange();
 

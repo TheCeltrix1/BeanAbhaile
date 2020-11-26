@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     private Transform _camera; //Camera for rotation
 
     //States
-    public float noise { get; set; } //Your variable <3
+    public float noise; //Your variable <3
     public bool IsMoving { get; private set; }
     public bool Falling { get { return _gravitationalForce < 0f; } }
     public bool Sprinting { get; private set; }
