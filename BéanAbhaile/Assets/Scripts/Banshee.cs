@@ -29,14 +29,14 @@ public class Banshee : MonoBehaviour
     private string _state;
     private bool _nearDeathLocation;
 
-    private float _moveSpeed = 2;
+    [SerializeField]private float _moveSpeed = 2;
     public float _playerAwareness;
     private float _playerAwarenessMax = 75;
     private float _playerAwarenessProximityModifier = 50f;
 
     private Vector3 _destination;
     private Vector3 _previousLocation;
-    public Vector3[] _keyPlaces;
+    public Transform[] keyPlaces;
     private NavMeshAgent _meshAgent;
     private NavMeshPath _navMeshPath;
     private RaycastHit _hit;
@@ -101,7 +101,7 @@ public class Banshee : MonoBehaviour
 
     private void GenerateDestination()
     {
-        Vector3 tempVector = _keyPlaces[Random.Range(0, _keyPlaces.Length)];
+        Vector3 tempVector = keyPlaces[Random.Range(0, keyPlaces.Length)].position;
         if (Vector3.Distance(tempVector, _destination) >= _neededProximity && _previousLocation != tempVector)
         {
             _destination = tempVector;

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
@@ -27,6 +28,12 @@ public class Player : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
     public string horizontalAxis = "Horizontal";
     public string verticalAxis = "Vertical";
+
+    [Header("Interaction")]
+    public KeyCode interactKey = KeyCode.F;
+    public float interactableDistance;
+    public float interactableRadius;
+    public LayerMask interactableLayer;
 
     private float _gravitationalForce;
     public bool Grounded { get; private set; }
@@ -110,6 +117,60 @@ public class Player : MonoBehaviour
         Gizmos.color = Grounded ? groundCheckGizmoColor : new Color(0.25f, 0f, 0f, 0.5f);
         Gizmos.DrawSphere(transform.position + groundCheckCenter, groundCheckRadius);
     }*/
+
+    private List<Transform> _hitInteractables;
+    private Transform _currentInteractable;
+    private float _distance;
+
+    private void CastInteractableRay()
+    {
+        if (_hitInteractables == null)
+            _hitInteractables = new List<Transform>();
+
+        if (Input.GetKeyDown(interactKey))
+        {
+            if (_currentInteractable)
+                _currentInteractable.SendMessage("PickupItem");
+        }
+
+        if (Physics.SphereCast(_camera.transform.position, interactableRadius, _camera.transform.TransformDirection(Vector3.forward), out RaycastHit hit, interactableDistance, interactableLayer))
+        {
+            if (!_hitInteractables.Contains(hit.transform))
+            {
+                _hitInteractables.Add(hit.transform);
+                _currentInteractable = hit.transform;
+                hit.transform.SendMessage("EnableOutline");
+            }
+            _distance = hit.distance;
+        }
+        else
+        {
+            if (_currentInteractable)
+            {
+                _currentInteractable.SendMessage("DisableOutline");
+                _currentInteractable = null;
+            }
+            _distance = interactableDistance;
+        }
+        for (int i = 0; i < _hitInteractables.Count; i++)
+        {
+            Transform t = _hitInteractables[i];
+            if (!t || t == _currentInteractable) continue;
+            t.SendMessage("DisableOutline");
+            _hitInteractables.RemoveAt(i);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Grounded ? groundCheckGizmoColor : new Color(0.25f, 0f, 0f, 0.5f);
+        Gizmos.DrawSphere(transform.position + groundCheckCenter, groundCheckRadius);
+        if (!_camera) return;
+        Vector3 direction = _camera.transform.TransformDirection(Vector3.forward) * _distance;
+        Gizmos.DrawRay(_camera.transform.position, direction);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(_camera.transform.position + direction, interactableRadius);
+    }
 }
 
 public class VelocityGroup {
