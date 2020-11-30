@@ -20,12 +20,13 @@ public class Banshee : MonoBehaviour
     public GameObject player;
     public AudioSource huntWailSound;
     public AudioSource painWailSound;
+    private bool _wail = true;
+
     private Player _playerController;
     private BoxCollider _playerSightTrigger;
     public GameObject deathLocation;
 
     private string _state;
-    private string _previousState;
     private bool _nearDeathLocation;
 
     private float _moveSpeed = 2;
@@ -56,6 +57,7 @@ public class Banshee : MonoBehaviour
     public bool noose = false;
     public bool brush = false;
     public bool reflection = false;
+    public bool mirrorFace = false;
 
     #endregion
 
@@ -63,7 +65,7 @@ public class Banshee : MonoBehaviour
     {
         _playerSightTrigger = this.gameObject.AddComponent<BoxCollider>();
         _playerSightTrigger.isTrigger = true;
-        _playerSightTrigger.size = new Vector3(3, 3, _sightRange);
+        _playerSightTrigger.size = new Vector3(5, 3, _sightRange);
         _playerSightTrigger.center = this.transform.forward * (_sightRange / 2);
         _playerController = player.GetComponent<Player>();
         _meshAgent = this.GetComponent<NavMeshAgent>();
@@ -75,7 +77,11 @@ public class Banshee : MonoBehaviour
     void Update()
     {
         //victory conditions
-        if (noose && brush && reflection) Destroy(this.gameObject);
+        if (noose && brush && reflection)
+        {
+            this.GetComponentInChildren<ParticleSystem>().Play();
+            Destroy(this.gameObject);
+        }
         //Variable Updates
         _playerDistance = Vector3.Distance(this.transform.position, player.transform.position);
 
@@ -131,10 +137,7 @@ public class Banshee : MonoBehaviour
                 return 0;
             }
         }
-        else
-        {
-            return 0;
-        }
+        else return 0;
     }
 
     //Hearing
@@ -232,56 +235,44 @@ public class Banshee : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
-        {
-            _inSightRange = true;
-        }
+        if (other.tag == "Player") _inSightRange = true;
+        if (other.name == "Mirror") mirrorFace = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
-        {
-            _inSightRange = false;
-        }
+        if (other.tag == "Player") _inSightRange = false;
+        if (other.name == "Mirror") mirrorFace = false;
     }
 
     private void HuntWail()
     {
         if (_state == "Hunt")
         {
-            if (_previousState != "Hunt")
-            {
-                //Debug.Log("FUCKING SCREECH");
-                _huntWailTimer = Random.Range(3,5);
-                huntWailSound.Play();
-            }
-            _huntWailTimer -= Time.deltaTime;
-            if (_huntWailTimer <= 0)
-            {
-                _huntWailTimer = Random.Range(3, 5);
-                huntWailSound.Play();
+            if (!huntWailSound.isPlaying) {
+                _huntWailTimer -= Time.deltaTime;
+                if (_huntWailTimer <= 0)
+                {
+                    _huntWailTimer = Random.Range(4, 5);
+                    huntWailSound.Play();
+                }
             }
         }
-        _previousState = _state;
     }
 
     private void PainWail()
     {
         _painWailTimer -= Time.deltaTime;
-        if (_painWailTimer <= 0)
+        if (_painWailTimer <= 0 && _wail)
         {
+            _wail = false;
             painWailSound.Play();
         }
         if (Vector3.Distance(player.transform.position, deathLocation.transform.position) <= 5 && !_nearDeathLocation)
         {
-            //Debug.Log("YOU BITCH");
             _nearDeathLocation = true;
             painWailSound.Play();
         }
-        if (Vector3.Distance(player.transform.position, deathLocation.transform.position) >= 6)
-        {
-            _nearDeathLocation = false;
-        }
+        if (Vector3.Distance(player.transform.position, deathLocation.transform.position) >= 6) _nearDeathLocation = false;
     }
 }
