@@ -101,7 +101,8 @@ public class Banshee : MonoBehaviour
 
     private void GenerateDestination()
     {
-        Vector3 tempVector = keyPlaces[Random.Range(0, keyPlaces.Length)].position;
+        Vector3 tempVector = /*keyPlaces[Random.Range(0, keyPlaces.Length)].position;*/ GetRandomLocation();
+        //SUCK MY DICK
         if (Vector3.Distance(tempVector, _destination) >= _neededProximity && _previousLocation != tempVector)
         {
             _destination = tempVector;
