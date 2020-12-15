@@ -14,13 +14,15 @@ public class Banshee : MonoBehaviour
     */
 
     #region Variables
+    public bool AIEnabled = false;
     private float _neededProximity = 1;
 
     //Objects
+    [Header("GameObjects")]
     public GameObject player;
     public AudioSource huntWailSound;
     public AudioSource painWailSound;
-    private bool _wail = true;
+    //private bool _wail = true;
 
     private Player _playerController;
     private BoxCollider _playerSightTrigger;
@@ -49,11 +51,14 @@ public class Banshee : MonoBehaviour
 
     //Timers
     private float _randomDestinationTimer;
-    private float _huntWailTimer = 0;
-    private float _painWailTimer = 5;
+    //private float _huntWailTimer = 0;
+    private float _wailTimer;
+    private float _minimumTime = 20;
+    private float _maximumTime = 40;
     private float _playerAwarenessDecayRate = 2;
 
     //ending variables
+    [Header("Ending Variables")]
     public bool noose = false;
     public bool brush = false;
     public bool reflection = false;
@@ -61,7 +66,7 @@ public class Banshee : MonoBehaviour
 
     #endregion
 
-    void Start()
+    void OnEnable()
     {
         _playerSightTrigger = this.gameObject.AddComponent<BoxCollider>();
         _playerSightTrigger.isTrigger = true;
@@ -70,33 +75,40 @@ public class Banshee : MonoBehaviour
         _playerController = player.GetComponent<Player>();
         _meshAgent = this.GetComponent<NavMeshAgent>();
         _randomDestinationTimer = Random.Range(20, 30);
-        _painWailTimer = Random.Range(4, 7);
+        _wailTimer = Random.Range(_minimumTime, _maximumTime);
         GenerateDestination();
+    }
+
+    public void AIEnable()
+    {
+        _minimumTime /= 2;
+        _maximumTime /= 2;
+        AIEnabled = true;
     }
 
     void Update()
     {
         //victory conditions
-        if (noose && brush && reflection)
-        {
-            this.GetComponentInChildren<ParticleSystem>().Play();
-            Destroy(this.gameObject);
+        if (AIEnabled) {
+            if (noose && brush && reflection)
+            {
+                this.GetComponentInChildren<ParticleSystem>().Play();
+                Destroy(this.gameObject);
+            }
+            //Variable Updates
+            _playerDistance = Vector3.Distance(this.transform.position, player.transform.position);
+
+            //update awareness
+            PlayerAwarenessChange();
+
+            //update meshAgent Movement
+            _meshAgent.SetDestination(_destination);
+            _meshAgent.speed = _moveSpeed;
+
+            PlayerAwarenessChange();
         }
-        //Variable Updates
-        _playerDistance = Vector3.Distance(this.transform.position, player.transform.position);
 
-        //update awareness
-        PlayerAwarenessChange();
-
-        //update meshAgent Movement
-        _meshAgent.SetDestination(_destination);
-        _meshAgent.speed = _moveSpeed;
-        //Debug.Log(_destination);
-
-        PlayerAwarenessChange();
-
-        HuntWail();
-        PainWail();
+        Wail(_minimumTime,_maximumTime);
     }
 
     private void GenerateDestination()
@@ -246,7 +258,7 @@ public class Banshee : MonoBehaviour
         if (other.name == "Mirror") mirrorFace = false;
     }
 
-    private void HuntWail()
+    /*private void HuntWail()
     {
         if (_state == "Hunt")
         {
@@ -275,5 +287,17 @@ public class Banshee : MonoBehaviour
             painWailSound.Play();
         }
         if (Vector3.Distance(player.transform.position, deathLocation.transform.position) >= 6) _nearDeathLocation = false;
+    }*/
+
+    private void Wail(float minimumTime, float maximumTime)
+    {
+        _wailTimer -= Time.deltaTime;
+        if (_wailTimer <= 0)
+        {
+            int vary = Random.Range(0,1);
+            if (vary == 1) painWailSound.Play();
+            else huntWailSound.Play();
+            _wailTimer = Random.Range(minimumTime, maximumTime);
+        }
     }
 }
