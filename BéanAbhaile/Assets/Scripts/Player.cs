@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
         noise = 0;
         UgokuUgoku();
         HandleInput();
+        CastInteractableRay();
     }
 
     private void LateUpdate() => transform.eulerAngles = new Vector3(transform.eulerAngles.x, _camera.eulerAngles.y, transform.eulerAngles.z);
@@ -130,7 +131,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(interactKey))
         {
             if (_currentInteractable)
-                _currentInteractable.SendMessage("PickupItem");
+                _currentInteractable.SendMessage("OnUse");
         }
 
         if (Physics.SphereCast(_camera.transform.position, interactableRadius, _camera.transform.TransformDirection(Vector3.forward), out RaycastHit hit, interactableDistance, interactableLayer))
@@ -139,7 +140,7 @@ public class Player : MonoBehaviour
             {
                 _hitInteractables.Add(hit.transform);
                 _currentInteractable = hit.transform;
-                hit.transform.SendMessage("EnableOutline");
+                hit.transform.SendMessage("OnInteractableSelectedInternal");
             }
             _distance = hit.distance;
         }
@@ -147,7 +148,7 @@ public class Player : MonoBehaviour
         {
             if (_currentInteractable)
             {
-                _currentInteractable.SendMessage("DisableOutline");
+                _currentInteractable.SendMessage("OnInteractableDeselectedInternal");
                 _currentInteractable = null;
             }
             _distance = interactableDistance;
@@ -156,7 +157,7 @@ public class Player : MonoBehaviour
         {
             Transform t = _hitInteractables[i];
             if (!t || t == _currentInteractable) continue;
-            t.SendMessage("DisableOutline");
+            t.SendMessage("OnInteractableDeselectedInternal");
             _hitInteractables.RemoveAt(i);
         }
     }
