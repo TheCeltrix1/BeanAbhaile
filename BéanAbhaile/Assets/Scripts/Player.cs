@@ -4,6 +4,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
+    public static Vector3 PlayerPosition { get; set; }
     private Animator _playerAnimator; //Reserved for Animation purposes UwU Gotta think ahead
     private CharacterController _characterController; //Needed lmao
 
@@ -60,6 +61,7 @@ public class Player : MonoBehaviour
         UgokuUgoku();
         HandleInput();
         CastInteractableRay();
+        PlayerPosition = transform.position;
     }
 
     private void LateUpdate() => transform.eulerAngles = new Vector3(transform.eulerAngles.x, _camera.eulerAngles.y, transform.eulerAngles.z);

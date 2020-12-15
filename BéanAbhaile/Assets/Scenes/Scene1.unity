@@ -22097,9 +22097,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45bebac43e3947b4081254ae18a5ff70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fogMax: 0
-  fogStartY: -10.86
-  fogMaxY: -15.11
+  fogMax: 0.4
+  fogStartY: -10.85
+  fogMaxY: -15.75
   areaSize: 44.5
 --- !u!1 &1486195529 stripped
 GameObject:

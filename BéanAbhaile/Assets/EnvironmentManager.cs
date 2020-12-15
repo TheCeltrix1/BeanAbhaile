@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnvironmentManager : MonoBehaviour
 {
-    public float fogMax;
+    public float fogMax = 0.4f;
     public float fogStartY;
     public float fogMaxY;
     public float areaSize;
@@ -19,6 +19,18 @@ public class EnvironmentManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (Player.PlayerPosition.y > fogStartY)
+        {
+            RenderSettings.fog = false;
+            return;
+        }
+        else {
+            RenderSettings.fog = true;
+            RenderSettings.fogDensity = Map(Player.PlayerPosition.y, fogStartY, fogMaxY, 0f, fogMax);
+        }
+    }
+
+    private float Map(float value, float s1, float e1, float s2, float e2) {
+        return s2 + (e2 - s2) * ((value - s1) / (e1 - s1));
     }
 }
