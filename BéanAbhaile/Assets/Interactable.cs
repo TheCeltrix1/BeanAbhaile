@@ -9,6 +9,7 @@ public abstract class Interactable : MonoBehaviour
     protected MeshRenderer meshRenderer;
     protected Color initialColor;
     public bool selectionColorChangeEnabled = true;
+    public string interactableName;
 
     public virtual void OnEnable()
     {
@@ -23,7 +24,6 @@ public abstract class Interactable : MonoBehaviour
     {
         OnInteractableSelected();
         if (!selectionColorChangeEnabled) return;
-        Debug.Log("Selected");
         if (meshRenderer)
             meshRenderer.material.color = selectedColor;
     }
@@ -32,7 +32,6 @@ public abstract class Interactable : MonoBehaviour
     {
         OnInteractableDeselected();
         if (!selectionColorChangeEnabled) return;
-        Debug.Log("Deselected");
         if (meshRenderer)
             meshRenderer.material.color = initialColor;
     }

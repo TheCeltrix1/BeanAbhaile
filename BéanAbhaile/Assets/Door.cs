@@ -6,6 +6,7 @@ public class Door : Interactable
 {
     private Vector3 _initialPosition;
 
+    public float doorSfxVolume = 2f;
     public float offset;
     public Direction direction;
     public float speed;
@@ -43,7 +44,7 @@ public class Door : Interactable
         _open = !_open;
         _used = true;
         if (_source)
-            _source.PlayOneShot(_source.clip);
+            _source.PlayOneShot(_source.clip, doorSfxVolume);
         StartCoroutine(ToggleState());
     }
 
