@@ -9,4 +9,9 @@ public class LoadScene : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+
+    public void EndLoad()
+    {
+        SceneManager.LoadScene(2);
+    }
 }
