@@ -14,47 +14,19 @@ public class Door : Interactable
     private bool _used;
     private bool _open;
 
-    public bool locked = false;
-    public Key unlocker;
-
-    private AudioSource _source;
-
     public override void OnEnable()
     {
         base.OnEnable();
         _initialPosition = transform.position;
-        if(!(_source = GetComponent<AudioSource>()))
-            _source = GetComponentInChildren<AudioSource>();
     }
 
     public override void OnUse()
     {
         if (_used) return;
-        if (locked && unlocker) {
-            if (unlocker.PickedUp)
-                OnDoorUnlocked();
-            else
-            {
-                OnDoorLocked();
-                return;
-            }
-        }
         _target = !_open ? GetOffsetPositionRelativeToDirection(direction, offset) : _initialPosition;
         _open = !_open;
         _used = true;
-        if (_source)
-            _source.PlayOneShot(_source.clip);
         StartCoroutine(ToggleState());
-    }
-
-    private void OnDoorLocked()
-    {
-
-    }
-
-    private void OnDoorUnlocked()
-    {
-
     }
 
     private Vector3 GetOffsetPositionRelativeToDirection(Direction direction, float offset) {

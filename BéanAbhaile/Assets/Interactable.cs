@@ -12,9 +12,7 @@ public abstract class Interactable : MonoBehaviour
 
     public virtual void OnEnable()
     {
-        if(!(meshRenderer = GetComponent<MeshRenderer>()))
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
-
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
         if (meshRenderer)
             initialColor = meshRenderer.material.color;
     }
