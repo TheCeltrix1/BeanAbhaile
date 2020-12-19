@@ -1,0 +1,299 @@
+fileFormatVersion: 2
+guid: 14cd5a27965764c45821d12ea2b2ee12
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Box011
+    100002: Box012
+    100004: Box013
+    100006: Hall_Table
+    100008: Hall_Table 1
+    100010: Hall_Table 2
+    100012: Hall_Table 3
+    100014: Hall_Table 4
+    100016: Hall_Table 5
+    100018: Hall_Table 6
+    100020: Hall_Table 7
+    100022: Hall_Table 8
+    100024: Hall_Table 9
+    100026: Hall_Table001
+    100028: Hall_Table002
+    100030: Hall_Table003
+    100032: Hall_Table004
+    100034: Hall_Table005
+    100036: Hall_Table006
+    100038: Hall_Table007
+    100040: Hall_Table008
+    100042: Hall_Table009
+    100044: Hall_Table010
+    100046: Hall_Table011
+    100048: Hall_Table012
+    100050: Hall_Table013
+    100052: Hall_Table014
+    100054: Hall_Table015
+    100056: Hall_Table016
+    100058: Hall_Table017
+    100060: Hall_Table018
+    100062: //RootNode
+    100064: Lamp
+    100066: Lamp 1
+    100068: Lamp007
+    100070: Lamp008
+    100072: Raised_Shelf
+    100074: Raised_Shelf 1
+    100076: Raised_Shelf 2
+    100078: Raised_Shelf 3
+    100080: Raised_Shelf 4
+    100082: Raised_Shelf008
+    400000: Box011
+    400002: Box012
+    400004: Box013
+    400006: Hall_Table
+    400008: Hall_Table 1
+    400010: Hall_Table 2
+    400012: Hall_Table 3
+    400014: Hall_Table 4
+    400016: Hall_Table 5
+    400018: Hall_Table 6
+    400020: Hall_Table 7
+    400022: Hall_Table 8
+    400024: Hall_Table 9
+    400026: Hall_Table001
+    400028: Hall_Table002
+    400030: Hall_Table003
+    400032: Hall_Table004
+    400034: Hall_Table005
+    400036: Hall_Table006
+    400038: Hall_Table007
+    400040: Hall_Table008
+    400042: Hall_Table009
+    400044: Hall_Table010
+    400046: Hall_Table011
+    400048: Hall_Table012
+    400050: Hall_Table013
+    400052: Hall_Table014
+    400054: Hall_Table015
+    400056: Hall_Table016
+    400058: Hall_Table017
+    400060: Hall_Table018
+    400062: //RootNode
+    400064: Lamp
+    400066: Lamp 1
+    400068: Lamp007
+    400070: Lamp008
+    400072: Raised_Shelf
+    400074: Raised_Shelf 1
+    400076: Raised_Shelf 2
+    400078: Raised_Shelf 3
+    400080: Raised_Shelf 4
+    400082: Raised_Shelf008
+    2100000: 'Material #1'
+    2100002: No Name
+    2300000: Box011
+    2300002: Box012
+    2300004: Box013
+    2300006: Hall_Table 1
+    2300008: Hall_Table 2
+    2300010: Hall_Table 3
+    2300012: Hall_Table 4
+    2300014: Hall_Table 5
+    2300016: Hall_Table 6
+    2300018: Hall_Table 7
+    2300020: Hall_Table 8
+    2300022: Hall_Table 9
+    2300024: Hall_Table001
+    2300026: Hall_Table002
+    2300028: Hall_Table003
+    2300030: Hall_Table004
+    2300032: Hall_Table005
+    2300034: Hall_Table006
+    2300036: Hall_Table007
+    2300038: Hall_Table008
+    2300040: Hall_Table009
+    2300042: Hall_Table010
+    2300044: Hall_Table011
+    2300046: Hall_Table012
+    2300048: Hall_Table013
+    2300050: Hall_Table014
+    2300052: Hall_Table015
+    2300054: Hall_Table016
+    2300056: Hall_Table017
+    2300058: Hall_Table018
+    2300060: Lamp
+    2300062: Lamp 1
+    2300064: Lamp007
+    2300066: Lamp008
+    2300068: Raised_Shelf
+    2300070: Raised_Shelf 1
+    2300072: Raised_Shelf 2
+    2300074: Raised_Shelf 3
+    2300076: Raised_Shelf 4
+    2300078: Raised_Shelf008
+    3300000: Box011
+    3300002: Box012
+    3300004: Box013
+    3300006: Hall_Table 1
+    3300008: Hall_Table 2
+    3300010: Hall_Table 3
+    3300012: Hall_Table 4
+    3300014: Hall_Table 5
+    3300016: Hall_Table 6
+    3300018: Hall_Table 7
+    3300020: Hall_Table 8
+    3300022: Hall_Table 9
+    3300024: Hall_Table001
+    3300026: Hall_Table002
+    3300028: Hall_Table003
+    3300030: Hall_Table004
+    3300032: Hall_Table005
+    3300034: Hall_Table006
+    3300036: Hall_Table007
+    3300038: Hall_Table008
+    3300040: Hall_Table009
+    3300042: Hall_Table010
+    3300044: Hall_Table011
+    3300046: Hall_Table012
+    3300048: Hall_Table013
+    3300050: Hall_Table014
+    3300052: Hall_Table015
+    3300054: Hall_Table016
+    3300056: Hall_Table017
+    3300058: Hall_Table018
+    3300060: Lamp
+    3300062: Lamp 1
+    3300064: Lamp007
+    3300066: Lamp008
+    3300068: Raised_Shelf
+    3300070: Raised_Shelf 1
+    3300072: Raised_Shelf 2
+    3300074: Raised_Shelf 3
+    3300076: Raised_Shelf 4
+    3300078: Raised_Shelf008
+    4300000: Box011
+    4300002: Box012
+    4300004: Raised_Shelf
+    4300006: Raised_Shelf
+    4300008: Raised_Shelf
+    4300010: Raised_Shelf
+    4300012: Raised_Shelf
+    4300014: Lamp
+    4300016: Lamp
+    4300018: Hall_Table001
+    4300020: Hall_Table002
+    4300022: Hall_Table003
+    4300024: Hall_Table004
+    4300026: Hall_Table005
+    4300028: Hall_Table006
+    4300030: Hall_Table007
+    4300032: Hall_Table008
+    4300034: Hall_Table009
+    4300036: Lamp007
+    4300038: Lamp008
+    4300040: Hall_Table
+    4300042: Hall_Table
+    4300044: Hall_Table
+    4300046: Hall_Table
+    4300048: Hall_Table
+    4300050: Hall_Table
+    4300052: Hall_Table
+    4300054: Hall_Table
+    4300056: Hall_Table
+    4300058: Hall_Table010
+    4300060: Hall_Table011
+    4300062: Hall_Table012
+    4300064: Hall_Table013
+    4300066: Hall_Table014
+    4300068: Hall_Table015
+    4300070: Hall_Table016
+    4300072: Hall_Table017
+    4300074: Hall_Table018
+    4300076: Raised_Shelf008
+    4300078: Box013
+    7400000: Take 001
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 10
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
