@@ -71,7 +71,7 @@ public class Banshee : MonoBehaviour
         _playerSightTrigger = this.gameObject.AddComponent<BoxCollider>();
         _playerSightTrigger.isTrigger = true;
         _playerSightTrigger.size = new Vector3(5, 3, _sightRange);
-        _playerSightTrigger.center = this.transform.forward * (_sightRange / 2);
+        _playerSightTrigger.center = -this.transform.right * (_sightRange / 2);
         _playerController = player.GetComponent<Player>();
         _meshAgent = this.GetComponent<NavMeshAgent>();
         _randomDestinationTimer = Random.Range(20, 30);
@@ -136,10 +136,11 @@ public class Banshee : MonoBehaviour
     //Sight & LOS
     private float Sight()
     {
-        Vector3 playerDirection = (player.transform.position - this.transform.position).normalized;
+        Vector3 playerDirection = new Vector3(player.transform.position.x - this.transform.position.x, player.transform.position.y - this.transform.position.y - 2, player.transform.position.z - this.transform.position.z).normalized;
         Physics.Raycast(this.transform.position, playerDirection, out _hit);
         if (_hit.transform != null && _hit.transform.tag == "Player")
         {
+            Debug.Log("Test");
             if (_inSightRange == true)
             {
                 Debug.Log("BEEP BEEP YOU SAD FUCK");
@@ -249,7 +250,8 @@ public class Banshee : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player") _inSightRange = true;
-        if (other.name == "Mirror") mirrorFace = true;
+        //if (other.name == "Mirror") mirrorFace = true;
+        Debug.Log(_inSightRange);
     }
 
     private void OnTriggerExit(Collider other)
@@ -300,4 +302,9 @@ public class Banshee : MonoBehaviour
             _wailTimer = Random.Range(minimumTime, maximumTime);
         }
     }
+
+    /*private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(this.transform.position, new Vector3(player.transform.position.x - this.transform.position.x, player.transform.position.y - this.transform.position.y - 2, player.transform.position.z - this.transform.position.z).normalized * 10);
+    }*/
 }
