@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using TMPro;
 
+[DefaultExecutionOrder(-20)]
 public class EnvironmentManager : MonoBehaviour
 {
     public static EnvironmentManager instance;
+    public static bool overrideFogSettings;
+    public static Color baseFogColor;
 
     [Header("Basement Atmosphere")]
     public float fogMax = 0.4f;
@@ -45,6 +48,7 @@ public class EnvironmentManager : MonoBehaviour
             volume.profile.TryGetSettings(out _grading);
             volume.profile.TryGetSettings(out _grain);
         }
+        baseFogColor = RenderSettings.fogColor;
     }
 
     private void OnDrawGizmos()
@@ -63,11 +67,16 @@ public class EnvironmentManager : MonoBehaviour
 
     private void Update()
     {
-        if (Player.PlayerPosition.y > fogStartY)
-            RenderSettings.fog = false;
-        else {
-            RenderSettings.fog = true;
-            RenderSettings.fogDensity = Map(Player.PlayerPosition.y, fogStartY, fogMaxY, 0f, fogMax);
+        if (!overrideFogSettings)
+        {
+            RenderSettings.fogColor = baseFogColor;
+            if (Player.PlayerPosition.y > fogStartY)
+                RenderSettings.fog = false;
+            else
+            {
+                RenderSettings.fog = true;
+                RenderSettings.fogDensity = Map(Player.PlayerPosition.y, fogStartY, fogMaxY, 0f, fogMax);
+            }
         }
 
         if (Physics.Linecast(Player.PlayerPosition, staircaseUpperPoint.position, out RaycastHit hit, lineCastMask)) { playerReference.StopBlink(); return; }

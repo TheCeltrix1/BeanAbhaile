@@ -17,11 +17,16 @@ public class CameraController : MonoBehaviour
     public bool reverseY;
 
     private Vector3 _cameraRotation;
+    public Player player;
 
     private void OnEnable() => SetCursorState(false);
 
     void Update()
     {
+        if (!player || player.SittingTransition) {
+            _cameraRotation = transform.eulerAngles;
+            return;
+        }
         float mouseMovementX = (smoothInput ? Input.GetAxis(horizontalAxis) : Input.GetAxisRaw(horizontalAxis)) * mouseSensitivity * (reverseX ? -1f : 1f);
         float mouseMovementY = -(smoothInput ? Input.GetAxis(verticalAxis) : Input.GetAxisRaw(verticalAxis)) * mouseSensitivity * (reverseY ? -1f : 1f);
         _cameraRotation = new Vector3(Mathf.Clamp(_cameraRotation.x + mouseMovementY, minYRotation, maxYRotation), _cameraRotation.y + mouseMovementX, _cameraRotation.z);

@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
     public string horizontalAxis = "Horizontal";
     public string verticalAxis = "Vertical";
+    public KeyCode flashlightKey = KeyCode.E;
 
     [Header("Interaction")]
     public KeyCode interactKey = KeyCode.F;
@@ -42,13 +43,15 @@ public class Player : MonoBehaviour
     private float _gravitationalForce;
     public bool Grounded { get; private set; }
     private bool _wasGrounded;
-    private Transform _camera; //Camera for rotation
+    public Transform cameraRef; //Camera for rotation
 
     //States
     public float noise; //Your variable <3
     public bool IsMoving { get; private set; }
     public bool Falling { get { return _gravitationalForce < 0f; } }
     public bool Sprinting { get; private set; }
+    public bool SittingTransition { get; set; }
+    public bool Sitting { get; set; }
 
     [Header("Atmosphere")]
     public Range flashlightBlinkRateRange;
@@ -56,7 +59,7 @@ public class Player : MonoBehaviour
     private bool _blinking;
     private AudioSource _sfxAudioSource;
     public AudioClip[] flashlightSFX;
-    public float flashlightVolume = 0.6f; 
+    public float flashlightVolume = 0.6f;
 
     [Header("Head Bob")]
     public float bobRate;
@@ -75,7 +78,7 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         _velocityGroup = new VelocityGroup();
-        _camera = Camera.main.transform;
+        cameraRef = Camera.main.transform;
         _characterController = GetComponent<CharacterController>();
         _playerAnimator = GetComponentInChildren<Animator>(); //Might be null
         _flashlight = GetComponentInChildren<Light>();
@@ -86,13 +89,20 @@ public class Player : MonoBehaviour
 
     private void Update() {
         noise = 0;
+        _characterController.enabled = !SittingTransition && !Sitting;
         UgokuUgoku();
         HandleInput();
         CastInteractableRay();
         PlayerPosition = transform.position;
+
+        if (Input.GetKeyDown(flashlightKey) && !_blinking)
+            ToggleFlashlight();
     }
 
-    private void LateUpdate() => transform.eulerAngles = new Vector3(transform.eulerAngles.x, _camera.eulerAngles.y, transform.eulerAngles.z);
+    private void LateUpdate() {
+        if(!SittingTransition)
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, cameraRef.eulerAngles.y, transform.eulerAngles.z);
+    }
     private void FixedUpdate() => ApplyGravity();
 
     private void HandleInput() {
@@ -165,7 +175,7 @@ public class Player : MonoBehaviour
                 _currentInteractable.SendMessage("OnUse");
         }
 
-        if (Physics.SphereCast(_camera.transform.position, interactableRadius, _camera.transform.TransformDirection(Vector3.forward), out RaycastHit hit, interactableDistance, interactableLayer))
+        if (Physics.SphereCast(cameraRef.transform.position, interactableRadius, cameraRef.transform.TransformDirection(Vector3.forward), out RaycastHit hit, interactableDistance, interactableLayer))
         {
             if (!_hitInteractables.Contains(hit.transform))
             {
@@ -204,11 +214,11 @@ public class Player : MonoBehaviour
         UnityEditor.Handles.Label(PlayerPosition + Vector3.up * 2f, $"T: {_sinTime} | Timer: {_bobTimer}");
 #endif
 
-        if (!_camera) return;
-        Vector3 direction = _camera.transform.TransformDirection(Vector3.forward) * _distance;
-        Gizmos.DrawRay(_camera.transform.position, direction);
+        if (!cameraRef) return;
+        Vector3 direction = cameraRef.transform.TransformDirection(Vector3.forward) * _distance;
+        Gizmos.DrawRay(cameraRef.transform.position, direction);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(_camera.transform.position + direction, interactableRadius);
+        Gizmos.DrawWireSphere(cameraRef.transform.position + direction, interactableRadius);
     }
 
     public void Blink() {
@@ -231,15 +241,19 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void ToggleFlashlight() {
+        _flashlight.enabled = !_flashlight.enabled;
+        if (_sfxAudioSource)
+            _sfxAudioSource.PlayOneShot(_flashlight.enabled ? flashlightSFX[0] : flashlightSFX[1], flashlightVolume);
+    }
+
     private IEnumerator StartBlink() {
         if (_flashlight)
         {
             while (_blinking)
             {
                 yield return new WaitForSeconds(Random.Range(flashlightBlinkRateRange.low, flashlightBlinkRateRange.high));
-                _flashlight.enabled = !_flashlight.enabled;
-                if (_sfxAudioSource)
-                    _sfxAudioSource.PlayOneShot(_flashlight.enabled ? flashlightSFX[0] : flashlightSFX[1], flashlightVolume);
+                ToggleFlashlight();
             }
 
             _flashlight.enabled = true;
@@ -249,6 +263,10 @@ public class Player : MonoBehaviour
     }
 
     private void BobHead() {
+        if (SittingTransition || Sitting) {
+            _bobTimer = 0f;
+            return;
+        }
         if (IsMoving)
         {
             float unscaledSinTime = Mathf.Sin(_bobTimer);
@@ -267,6 +285,26 @@ public class Player : MonoBehaviour
         }
         else
             _bobTimer = 0f;
+    }
+
+    public Seat CurrentSeat { get; private set; }
+
+    public void Sit(Vector3 position, Quaternion rotation, float sitSpeed, Seat seat = null)
+    {
+        if (SittingTransition) return;
+        CurrentSeat = seat;
+        StartCoroutine(StartSitAnimation(rotation, position, sitSpeed));
+    }
+
+    private IEnumerator StartSitAnimation(Quaternion rotation, Vector3 position, float sitSpeed) {
+        SittingTransition = true;
+        while (cameraRef.rotation != rotation || transform.position != position) {
+            cameraRef.rotation = Quaternion.RotateTowards(cameraRef.rotation, rotation, sitSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, position, sitSpeed * Time.deltaTime);
+            yield return null;
+        }
+        SittingTransition = false;
+        Sitting = !Sitting;
     }
 }
 
