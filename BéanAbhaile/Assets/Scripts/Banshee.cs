@@ -22,6 +22,7 @@ public class Banshee : MonoBehaviour
     public GameObject player;
     public AudioSource huntWailSound;
     public AudioSource painWailSound;
+    public LayerMask bansheeMask;
     //private bool _wail = true;
 
     private Player _playerController;
@@ -137,9 +138,7 @@ public class Banshee : MonoBehaviour
     private float Sight()
     {
         Vector3 playerDirection = new Vector3(player.transform.position.x - this.transform.position.x, player.transform.position.y - this.transform.position.y - 2, player.transform.position.z - this.transform.position.z).normalized;
-        Physics.Raycast(this.transform.position, playerDirection, out _hit);
-        if (_hit.transform != null && _hit.transform.tag == "Player")
-        {
+        if (Physics.Linecast(this.transform.position, Player.PlayerPosition, out _hit, bansheeMask)) { 
             Debug.Log("Test");
             if (_inSightRange == true)
             {
@@ -151,7 +150,7 @@ public class Banshee : MonoBehaviour
                 return 0;
             }
         }
-        else return 0;
+        return 0;
     }
 
     //Hearing
@@ -305,6 +304,6 @@ public class Banshee : MonoBehaviour
 
     /*private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(this.transform.position, new Vector3(player.transform.position.x - this.transform.position.x, player.transform.position.y - this.transform.position.y - 2, player.transform.position.z - this.transform.position.z).normalized * 10);
+        Gizmos.DrawLine((this.transform.position, new Vector3(player.transform.position.x - this.transform.position.x, player.transform.position.y - this.transform.position.y - 2, player.transform.position.z - this.transform.position.z).normalized * 10);
     }*/
 }
