@@ -33,6 +33,14 @@ public class EnvironmentManager : MonoBehaviour
     public Canvas generalCanvas;
     public TextMeshProUGUI pickupText;
 
+    [Header("Banshee Feedback")]
+    public Transform bansheeReference;
+    public float feedbackDistanceThreshold;
+    public LayerMask feedbackMask;
+    public AudioSource feedbackSource;
+    [Range(0f, 1f)] public float maxVolume = 1f;
+    public float volumeChangeRate = 100f;
+
     private void Awake()
     {
         if (instance == null)
@@ -60,13 +68,19 @@ public class EnvironmentManager : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawLine(Player.PlayerPosition, staircaseUpperPoint.position);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(Player.PlayerPosition, bansheeReference.position);
 #if UNITY_EDITOR
-        UnityEditor.Handles.Label(Player.PlayerPosition + Vector3.up * 1.5f, $"{Vector3.Distance(Player.PlayerPosition, staircaseUpperPoint.position)}");
+        UnityEditor.Handles.Label(Player.PlayerPosition + Vector3.up * 1.5f, $"Staircase Dist: {Vector3.Distance(Player.PlayerPosition, staircaseUpperPoint.position)}\n" +
+            $"Banshee Dist: {Vector3.Distance(Player.PlayerPosition, bansheeReference.position)}\n" +
+            $"{Map(Vector3.Distance(Player.PlayerPosition, bansheeReference.position), 1f, feedbackDistanceThreshold, 0f, maxVolume)}");
 #endif
     }
 
+
     private void Update()
     {
+        UpdateBansheeFeedback();
         if (!overrideFogSettings)
         {
             RenderSettings.fogColor = baseFogColor;
@@ -105,5 +119,25 @@ public class EnvironmentManager : MonoBehaviour
         t.transform.SetParent(instance.generalCanvas.transform, false);
         t.text = text;
         Destroy(t.gameObject, 6f);
+    }
+
+    private void UpdateBansheeFeedback()
+    {
+        float dist = Vector3.Distance(playerReference.transform.position, bansheeReference.position);
+        if (Physics.Linecast(playerReference.transform.position, bansheeReference.position, out RaycastHit hit, feedbackMask)) {
+            if (feedbackSource)
+                feedbackSource.volume = Mathf.MoveTowards(feedbackSource.volume, 0f, volumeChangeRate * Time.deltaTime);
+            return;
+        }
+        if (dist <= feedbackDistanceThreshold)
+        {
+            if (feedbackSource)
+                feedbackSource.volume = Mathf.MoveTowards(feedbackSource.volume, Map(dist, feedbackDistanceThreshold + 1f, 0f, 0f, maxVolume), volumeChangeRate * Time.deltaTime);
+            else
+            {
+                if (feedbackSource)
+                    feedbackSource.volume = 0f;
+            }
+        }
     }
 }

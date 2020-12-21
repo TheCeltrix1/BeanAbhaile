@@ -2014,7 +2014,7 @@ Transform:
   m_LocalScale: {x: 0.15625, y: 0.15625, z: 0.15625}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &227144971 stripped
 GameObject:
@@ -2790,7 +2790,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 162201d224dfdb64293efa6b6389a3fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 162201d224dfdb64293efa6b6389a3fe,
         type: 3}
@@ -4773,7 +4773,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 4b898bdca2f8d4946aab60e96a2224c7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b898bdca2f8d4946aab60e96a2224c7,
         type: 3}
@@ -11042,7 +11042,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8afa80ef184488e4b9ebe0ab35adc356,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8afa80ef184488e4b9ebe0ab35adc356,
         type: 3}
@@ -19102,7 +19102,7 @@ PrefabInstance:
     - target: {fileID: 1470055248511106727, guid: 2202f253165cfa54b8f3f0c22f457ae9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1470055248511106727, guid: 2202f253165cfa54b8f3f0c22f457ae9,
         type: 3}
@@ -22321,7 +22321,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 5c7f8ad0278a2e54bb231f9b3700e011,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5c7f8ad0278a2e54bb231f9b3700e011,
         type: 3}
@@ -25331,6 +25331,14 @@ MonoBehaviour:
   generalCanvas: {fileID: 511731661}
   pickupText: {fileID: 5255177906992952589, guid: 70cfbb30b93e97e42b8d717556550a91,
     type: 3}
+  bansheeReference: {fileID: 762439071}
+  feedbackDistanceThreshold: 16
+  feedbackMask:
+    serializedVersion: 2
+    m_Bits: 823
+  feedbackSource: {fileID: 2103133864}
+  maxVolume: 0.15
+  volumeChangeRate: 0.25
 --- !u!114 &1481027194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27596,7 +27604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400062, guid: 14cd5a27965764c45821d12ea2b2ee12, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400062, guid: 14cd5a27965764c45821d12ea2b2ee12, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -30657,6 +30665,133 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6659003102834268097, guid: e4aaa776114d4e640bc732627ab55c98, type: 3}
+--- !u!1 &2103133863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2103133865}
+  - component: {fileID: 2103133864}
+  m_Layer: 0
+  m_Name: Static Chan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &2103133864
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103133863}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 3f454506dbceae049ba4b71157b0c71e, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &2103133865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103133863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.344679, y: -8.845054, z: 13.602668}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 22
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2105547392
 PrefabInstance:
   m_ObjectHideFlags: 0
